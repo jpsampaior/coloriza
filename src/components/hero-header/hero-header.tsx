@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MaxWidthWrapper } from "../max-width-wrapper";
 import { Palette } from "lucide-react";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 
 export function HeroHeader() {
   return (
@@ -12,7 +12,14 @@ export function HeroHeader() {
             <Palette className="w-8 h-8 text-primary" />
             <span className="text-xl font-bold text-primary">Colorize</span>
           </Link>
-          <Link href="/auth" className={buttonVariants({variant: "ghost"})}>Entrar</Link>
+          <div>
+            <Link href="/auth" className={buttonVariants({ variant: "ghost" })}>
+              Entrar
+            </Link>
+            <Link href="/auth" className={buttonVariants({ variant: "ghost" })}>
+              Cadastre-se
+            </Link>
+          </div>
         </div>
       </MaxWidthWrapper>
     </header>

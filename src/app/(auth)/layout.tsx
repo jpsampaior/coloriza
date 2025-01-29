@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../../globals.css";
+import "../globals.css";
+import { HeroHeader } from "@/components/hero-header/hero-header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,11 +17,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="h-full">
       <body
-        className={`relative h-full font-sans antialiased ${inter.className}`}
+        className={`relative h-full font-sans antialiased bg-sky-100 ${inter.className}`}
       >
-        <main className="relative flex flex-col min-h-screen">
-          <div className="flex-grow flex-1">{children}</div>
-        </main>
+        <main className="flex items-center h-full">{children}</main>
       </body>
     </html>
   );
