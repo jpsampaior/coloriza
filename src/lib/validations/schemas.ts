@@ -15,3 +15,8 @@ export const signUpSchema = z
     message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
+
+export const signInSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});

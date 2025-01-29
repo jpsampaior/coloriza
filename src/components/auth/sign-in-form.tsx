@@ -6,29 +6,26 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Lock, Mail, Shield, User } from "lucide-react";
-import { signUpSchema } from "@/lib/validations/schemas";
+import { signInSchema, signUpSchema } from "@/lib/validations/schemas";
 import { CustomFormField, FormFieldType } from "../forms/custom-form-field";
 import { Button } from "../ui/button";
 
-export function SignUpForm() {
+export function SignInForm() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      fullName: "",
       email: "",
-      accessCode: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof signUpSchema>) {
+  async function onSubmit(data: z.infer<typeof signInSchema>) {
     console.log(data);
   }
 
@@ -43,33 +40,12 @@ export function SignUpForm() {
         <div className="space-y-4">
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="fullName"
-            placeholder="Nome Completo"
-            control={form.control}
-            icon={
-              <User size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
-          />
-          <CustomFormField
-            fieldType={FormFieldType.INPUT}
             name="email"
             type="email"
             placeholder="E-mail"
             control={form.control}
             icon={
               <Mail size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
-          />
-          <CustomFormField
-            fieldType={FormFieldType.INPUT}
-            name="accessCode"
-            placeholder="Código de Acesso"
-            control={form.control}
-            icon={
-              <Shield
-                size={20}
-                className="bg-dark-400 text-zinc-300 h-11 ml-3"
-              />
             }
           />
           <CustomFormField
@@ -82,19 +58,9 @@ export function SignUpForm() {
               <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
             }
           />
-          <CustomFormField
-            fieldType={FormFieldType.INPUT}
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirme sua senha"
-            control={form.control}
-            icon={
-              <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
-          />
         </div>
         <Button type="submit" className="w-full">
-          Cadastrar
+          Entrar
         </Button>
       </form>
     </Form>
