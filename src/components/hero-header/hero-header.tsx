@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MaxWidthWrapper } from "../max-width-wrapper";
 import { Palette } from "lucide-react";
 import { buttonVariants } from "../ui/button";
+import Image from "next/image";
 
 export function HeroHeader() {
   return (
@@ -9,14 +10,25 @@ export function HeroHeader() {
       <MaxWidthWrapper className="max-w-8/12">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
-            <Palette className="w-8 h-8 text-primary" />
-            <span className="text-xl font-bold text-primary">Colorize</span>
+            <Image
+              src="/logo-coloriza.png"
+              alt="Coloriza"
+              width={42}
+              height={42}
+            />
+            <span className="text-xl font-bold text-primary">Coloriza</span>
           </Link>
           <div>
-            <Link href="/auth" className={buttonVariants({ variant: "ghost" })}>
+            <Link
+              href="/sign-in"
+              className={buttonVariants({ variant: "ghost" })}
+            >
               Entrar
             </Link>
-            <Link href="/auth" className={buttonVariants({ variant: "ghost" })}>
+            <Link
+              href="/sign-in"
+              className={buttonVariants({ variant: "ghost" })}
+            >
               Cadastre-se
             </Link>
           </div>
