@@ -24,6 +24,7 @@ interface CustomProps {
   fieldType: FormFieldType;
   children?: React.ReactNode;
   icon?: React.ReactNode;
+  disabled?: boolean;
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {

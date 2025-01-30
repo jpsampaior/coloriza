@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,9 +9,13 @@ import { Lock, Mail, Shield, User } from "lucide-react";
 import { signInSchema, signUpSchema } from "@/lib/validations/schemas";
 import { CustomFormField, FormFieldType } from "../forms/custom-form-field";
 import { Button } from "../ui/button";
+import { login } from "@/actions/login";
 
 export function SignInForm() {
   const [mounted, setMounted] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setMounted(true);
@@ -26,7 +30,15 @@ export function SignInForm() {
   });
 
   async function onSubmit(data: z.infer<typeof signInSchema>) {
-    console.log(data);
+    setError(undefined);
+    setSuccess(undefined);
+
+    startTransition(() => {
+      login(data).then(({ error, success }) => {
+        setError(error);
+        setSuccess(success);
+      });
+    });
   }
 
   if (!mounted) return null;
@@ -44,6 +56,7 @@ export function SignInForm() {
             type="email"
             placeholder="E-mail"
             control={form.control}
+            disabled={isPending}
             icon={
               <Mail size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
             }
@@ -54,12 +67,15 @@ export function SignInForm() {
             type="password"
             placeholder="Senha"
             control={form.control}
+            disabled={isPending}
             icon={
               <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
             }
           />
         </div>
-        <Button type="submit" className="w-full">
+        {error && <p className="text-red-500">{error}</p>}
+        {success && <p className="text-green-500">{success}</p>}
+        <Button type="submit" className="w-full" disabled={isPending}>
           Entrar
         </Button>
       </form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,9 +9,13 @@ import { Lock, Mail, Shield, User } from "lucide-react";
 import { signUpSchema } from "@/lib/validations/schemas";
 import { CustomFormField, FormFieldType } from "../forms/custom-form-field";
 import { Button } from "../ui/button";
+import { register } from "@/actions/register";
 
 export function SignUpForm() {
   const [mounted, setMounted] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setMounted(true);
@@ -29,7 +33,15 @@ export function SignUpForm() {
   });
 
   async function onSubmit(data: z.infer<typeof signUpSchema>) {
-    console.log(data);
+    setError(undefined);
+    setSuccess(undefined);
+
+    startTransition(() => {
+      register(data).then(({ error, success }) => {
+        setError(error);
+        setSuccess(success);
+      });
+    });
   }
 
   if (!mounted) return null;
@@ -49,6 +61,7 @@ export function SignUpForm() {
             icon={
               <User size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
             }
+            disabled={isPending}
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -59,6 +72,7 @@ export function SignUpForm() {
             icon={
               <Mail size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
             }
+            disabled={isPending}
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -71,6 +85,7 @@ export function SignUpForm() {
                 className="bg-dark-400 text-zinc-300 h-11 ml-3"
               />
             }
+            disabled={isPending}
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -81,6 +96,7 @@ export function SignUpForm() {
             icon={
               <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
             }
+            disabled={isPending}
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -91,9 +107,12 @@ export function SignUpForm() {
             icon={
               <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
             }
+            disabled={isPending}
           />
         </div>
-        <Button type="submit" className="w-full">
+        {error && <p className="text-red-500">{error}</p>}
+        {success && <p className="text-green-500">{success}</p>}
+        <Button type="submit" className="w-full" disabled={isPending}>
           Cadastrar
         </Button>
       </form>
