@@ -15,7 +15,6 @@ export function SignUpForm() {
   const [mounted, setMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>(undefined);
-  const [success, setSuccess] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setMounted(true);
@@ -34,12 +33,12 @@ export function SignUpForm() {
 
   async function onSubmit(data: z.infer<typeof signUpSchema>) {
     setError(undefined);
-    setSuccess(undefined);
 
     startTransition(() => {
-      register(data).then(({ error, success }) => {
-        setError(error);
-        setSuccess(success);
+      register(data).then((response) => {
+        if (response && "error" in response) {
+          setError(response.error);
+        }
       });
     });
   }
@@ -111,7 +110,6 @@ export function SignUpForm() {
           />
         </div>
         {error && <p className="text-red-500">{error}</p>}
-        {success && <p className="text-green-500">{success}</p>}
         <Button type="submit" className="w-full" disabled={isPending}>
           Cadastrar
         </Button>

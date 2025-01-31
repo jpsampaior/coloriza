@@ -26,7 +26,7 @@ export function HeroHeader() {
               Entrar
             </Link>
             <Link
-              href="/sign-in"
+              href="/sign-up"
               className={buttonVariants({ variant: "ghost" })}
             >
               Cadastre-se

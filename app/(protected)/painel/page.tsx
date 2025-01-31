@@ -1,6 +1,9 @@
-import { auth } from "@/auth";
+"use client";
 
-export default async function Painel() {
-  const session = await auth();
-  return <div>{JSON.stringify(session)}</div>;
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+export default function Painel() {
+  const user = useCurrentUser();
+
+  return <div>{JSON.stringify(user)}</div>;
 }

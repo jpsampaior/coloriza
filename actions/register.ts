@@ -5,6 +5,8 @@ import { signUpSchema } from "@/lib/validations/schemas";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const register = async (values: z.infer<typeof signUpSchema>) => {
   const validatedFields = signUpSchema.safeParse(values);
@@ -30,7 +32,9 @@ export const register = async (values: z.infer<typeof signUpSchema>) => {
     },
   });
 
-  // TODO: Send verification token email
-
-  return { success: "User created!" };
+  await signIn("credentials", {
+    email,
+    password,
+    redirectTo: DEFAULT_LOGIN_REDIRECT,
+  });
 };
