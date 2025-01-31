@@ -56,9 +56,7 @@ export function SignInForm() {
             placeholder="E-mail"
             control={form.control}
             disabled={isPending}
-            icon={
-              <Mail size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
+            icon={Mail}
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -67,9 +65,7 @@ export function SignInForm() {
             placeholder="Senha"
             control={form.control}
             disabled={isPending}
-            icon={
-              <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
+            icon={Lock}
           />
         </div>
         {error && <p className="text-red-500">{error}</p>}

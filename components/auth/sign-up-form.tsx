@@ -57,9 +57,7 @@ export function SignUpForm() {
             name="fullName"
             placeholder="Nome Completo"
             control={form.control}
-            icon={
-              <User size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
+            icon={User}
             disabled={isPending}
           />
           <CustomFormField
@@ -68,9 +66,7 @@ export function SignUpForm() {
             type="email"
             placeholder="E-mail"
             control={form.control}
-            icon={
-              <Mail size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
+            icon={Mail}
             disabled={isPending}
           />
           <CustomFormField
@@ -78,12 +74,7 @@ export function SignUpForm() {
             name="accessCode"
             placeholder="Código de Acesso"
             control={form.control}
-            icon={
-              <Shield
-                size={20}
-                className="bg-dark-400 text-zinc-300 h-11 ml-3"
-              />
-            }
+            icon={Shield}
             disabled={isPending}
           />
           <CustomFormField
@@ -92,9 +83,7 @@ export function SignUpForm() {
             type="password"
             placeholder="Senha"
             control={form.control}
-            icon={
-              <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
+            icon={Lock}
             disabled={isPending}
           />
           <CustomFormField
@@ -103,9 +92,7 @@ export function SignUpForm() {
             type="password"
             placeholder="Confirme sua senha"
             control={form.control}
-            icon={
-              <Lock size={20} className="bg-dark-400 text-zinc-300 h-11 ml-3" />
-            }
+            icon={Lock}
             disabled={isPending}
           />
         </div>
