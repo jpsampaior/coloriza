@@ -67,7 +67,12 @@ export function Sidebar() {
       <div className="flex justify-between items-center border-t border-gray-200 pt-4">
         <div className="flex flex-col">
           <span className="font-semibold">{user?.name}</span>
-          <p className="text-sm text-slate-600">{user?.email}</p>
+          <p className="text-sm text-slate-600">
+            {user?.email}
+            {user?.role && (
+              <span className="text-xs text-slate-400 ml-1">({user.role})</span>
+            )}
+          </p>
         </div>
 
         <LogOut
