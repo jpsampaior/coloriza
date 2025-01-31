@@ -1,10 +1,10 @@
 "use client";
 
-import { Box, Clock, Cog, FileText, LogOut, Palette } from "lucide-react";
+import { Box, Clock, Cog, FileText, LogOut } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import Image from "next/image";
 
 const perks = [
   {
@@ -40,7 +40,12 @@ export function Sidebar() {
     <aside className="h-screen sticky top-0 flex flex-col justify-between border-r border-gray-200 bg-white pt-8 sm:p-4 xl:p-6 2xl:w-[355px] max-lg:hidden">
       <div className="space-y-6">
         <Link href="/" className="flex items-center space-x-2">
-          <Palette className="w-8 h-8 text-primary" />
+          <Image
+            src="/logo-coloriza.png"
+            alt="Coloriza"
+            width={40}
+            height={40}
+          />
           <span className="text-xl font-bold text-primary">Colorize</span>
         </Link>
         <nav className="flex flex-col gap-4">
