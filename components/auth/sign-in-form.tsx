@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import { Lock, Mail, Shield, User } from "lucide-react";
+import { Lock, Mail, RotateCw, Shield, User } from "lucide-react";
 import { signInSchema, signUpSchema } from "@/lib/validations/schemas";
 import { CustomFormField, FormFieldType } from "../forms/custom-form-field";
 import { Button } from "../ui/button";
@@ -70,7 +70,8 @@ export function SignInForm() {
         </div>
         {error && <p className="text-red-500">{error}</p>}
         <Button type="submit" className="w-full" disabled={isPending}>
-          Entrar
+          {isPending && <RotateCw className="mr-2 h-4 w-4 animate-spin" />}
+          {isPending ? "Entrando..." : "Entrar"}
         </Button>
       </form>
     </Form>
