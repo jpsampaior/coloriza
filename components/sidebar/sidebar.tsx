@@ -1,5 +1,7 @@
 import { Box, Clock, Cog, FileText, LogOut, Palette } from "lucide-react";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import { signOut } from "@/auth";
 
 interface SidebarProps {
   user: User;
@@ -57,7 +59,16 @@ export function Sidebar({ user }: SidebarProps) {
           <span className="font-semibold">João Pedro Sampaio Ribeiro</span>
           <p className="text-sm text-slate-600">jpsampaior@edu.unifor.br</p>
         </div>
-        <LogOut className="w-6 h-6" strokeWidth={1.25} />
+
+        <LogOut
+          className="w-6 h-6 hover:cursor-pointer"
+          strokeWidth={1.25}
+          onClick={async () => {
+            "use server";
+
+            await signOut();
+          }}
+        />
       </div>
     </aside>
   );

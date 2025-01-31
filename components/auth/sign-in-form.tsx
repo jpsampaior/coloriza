@@ -15,7 +15,6 @@ export function SignInForm() {
   const [mounted, setMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>(undefined);
-  const [success, setSuccess] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setMounted(true);
@@ -31,12 +30,12 @@ export function SignInForm() {
 
   async function onSubmit(data: z.infer<typeof signInSchema>) {
     setError(undefined);
-    setSuccess(undefined);
 
     startTransition(() => {
-      login(data).then(({ error, success }) => {
-        setError(error);
-        setSuccess(success);
+      login(data).then((response) => {
+        if (response && "error" in response) {
+          setError(response.error);
+        }
       });
     });
   }
@@ -74,7 +73,6 @@ export function SignInForm() {
           />
         </div>
         {error && <p className="text-red-500">{error}</p>}
-        {success && <p className="text-green-500">{success}</p>}
         <Button type="submit" className="w-full" disabled={isPending}>
           Entrar
         </Button>
