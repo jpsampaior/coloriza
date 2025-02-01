@@ -5,32 +5,34 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const perks = [
   {
     name: "Gerenciamento de Estoque",
-    link: "painel/estoque",
+    link: "/painel/estoque",
     Icon: Box,
   },
   {
     name: "Relatórios Detalhados",
-    link: "painel/relatorios",
+    link: "/painel/relatorios",
     Icon: FileText,
   },
   {
     name: "Histórico de Projetos",
-    link: "painel/projetos",
+    link: "/painel/projetos",
     Icon: Clock,
   },
   {
     name: "Configurações",
-    link: "painel/configuracoes",
+    link: "/painel/configuracoes",
     Icon: Cog,
   },
 ];
 
 export function Sidebar() {
   const user = useCurrentUser();
+  const pathname = usePathname();
 
   function onClick() {
     signOut();
@@ -50,17 +52,29 @@ export function Sidebar() {
         </Link>
         <nav className="flex flex-col gap-4">
           <ul>
-            {perks.map((perk) => (
-              <li key={perk.name}>
-                <Link
-                  href={perk.link}
-                  className="text-slate-800 flex gap-3 items-center py-1 md:py-3 2xl:py-4 rounded-lg justify-start w-fit"
-                >
-                  <perk.Icon className="w-6 h-6" strokeWidth={1} />
-                  <span className="font-semibold">{perk.name}</span>
-                </Link>
-              </li>
-            ))}
+            {perks.map((perk) => {
+              const isActive =
+                pathname === perk.link || pathname.startsWith(`${perk.link}/`);
+
+              return (
+                <li key={perk.name}>
+                  <Link
+                    href={perk.link}
+                    className={`text-slate-800 flex gap-3 items-center py-1 md:py-3 2xl:py-4 rounded-lg justify-start w-fit relative group px-3 ${
+                      isActive ? "bg-primary text-white" : ""
+                    }`}
+                  >
+                    <perk.Icon className="w-6 h-6" strokeWidth={1} />
+                    <span className="font-semibold">{perk.name}</span>
+                    <span
+                      className={`bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full rounded-full ${
+                        isActive ? "hidden" : "absolute"
+                      }`}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>
