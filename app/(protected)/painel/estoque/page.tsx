@@ -3,10 +3,15 @@ import { format } from "date-fns";
 
 export default function Estoque() {
   return (
-    <div className="bg-sky-50 p-6">
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Baixa Quantidade</h2>
-        <div>
+    <div>
+      <div className="bg-sky-50">
+        <section className="p-6 space-y-4">
+          <div className="space-x-2">
+            <h2 className="inline text-2xl font-semibold">Baixa Quantidade</h2>
+            <p className="inline text-muted">
+              (Lista de tintas que estão com baixa quantidade)
+            </p>
+          </div>
           <ul className="flex gap-4">
             {paintStock.map((paint) => (
               <li
@@ -35,8 +40,20 @@ export default function Estoque() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
+        </section>
+      </div>
+      <div>
+        <section className="px-6 py-4">
+          <div className="space-x-2">
+            <h2 className="inline text-2xl font-semibold mb-4">
+              Lista de Tintas
+            </h2>
+            <p className="inline text-muted">
+              (Visão geral de todas as tintas cadastradas no sistema)
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
