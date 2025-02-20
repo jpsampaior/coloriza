@@ -5,13 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import { Lock, Mail, RotateCw, Shield, User } from "lucide-react";
-import { signUpSchema } from "@/lib/validations/schemas";
-import { CustomFormField, FormFieldType } from "../forms/custom-form-field";
+import { Calendar, Droplet, Factory, Lock, Mail, Palette, RotateCw, Shield, Type, User } from "lucide-react";
+import { paintSchema } from "@/lib/validations/schemas";
+import { CustomFormField, FormFieldType } from "./custom-form-field";
 import { Button } from "../ui/button";
-import { register } from "@/actions/register";
 
-export function SignUpForm() {
+export function PaintForm() {
   const [mounted, setMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>(undefined);
@@ -20,27 +19,19 @@ export function SignUpForm() {
     setMounted(true);
   }, []);
 
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<z.infer<typeof paintSchema>>({
+    resolver: zodResolver(paintSchema),
     defaultValues: {
-      fullName: "",
-      email: "",
-      accessCode: "",
-      password: "",
-      confirmPassword: "",
+      nome: "",
+      fabricante: "",
+      cor: "",
+      quantidade: 0,
+      validade: "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof signUpSchema>) {
-    setError(undefined);
-
-    startTransition(() => {
-      register(data).then((response) => {
-        if (response && "error" in response) {
-          setError(response.error);
-        }
-      });
-    });
+  async function onSubmit(data: z.infer<typeof paintSchema>) {
+    console.log(data);
   }
 
   if (!mounted) return null;
@@ -54,52 +45,63 @@ export function SignUpForm() {
         <div className="space-y-4">
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="fullName"
-            placeholder="Nome Completo"
+            name="nome"
+            placeholder="Nome"
+            label="Nome:"
             control={form.control}
-            icon={User}
+            icon={Type}
             disabled={isPending}
+            required
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="email"
-            type="email"
-            placeholder="E-mail"
+            name="fabricante"
+            placeholder="Fabricante"
+            label="Fabricante:"
             control={form.control}
-            icon={Mail}
+            icon={Factory}
             disabled={isPending}
+            required
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="accessCode"
-            placeholder="Código de Acesso"
+            name="cor"
+            placeholder="Cor"
+            label="Cor:"
+            type="colorHex"
+            mask="#******"
             control={form.control}
-            icon={Shield}
+            icon={Palette}
             disabled={isPending}
+            required
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="password"
-            type="password"
-            placeholder="Senha"
+            name="quantidade"
+            type="number"
+            placeholder="Quantidade"
+            label="Quantidade:"
             control={form.control}
-            icon={Lock}
+            icon={Droplet}
             disabled={isPending}
+            required
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirme sua senha"
+            name="validade"
+            type="date"
+            placeholder="Validade"
+            label="Validade:"
             control={form.control}
-            icon={Lock}
+            icon={Calendar}
             disabled={isPending}
+            required
           />
         </div>
         {error && <p className="text-red-500">{error}</p>}
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && <RotateCw className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? "Cadastrando..." : "Cadastrar"}
+          {isPending ? "Adicionando..." : "Adicionar"}
         </Button>
       </form>
     </Form>

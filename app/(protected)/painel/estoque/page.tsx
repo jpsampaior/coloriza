@@ -1,3 +1,4 @@
+import { PaintDialog } from "@/components/dialogs/paint-dialog";
 import { columnsPaints } from "@/components/tables/columns";
 import { GenericTable } from "@/components/tables/generic-table";
 import { Button } from "@/components/ui/button";
@@ -70,10 +71,12 @@ export default function Estoque() {
                 (Visão geral de todas as tintas cadastradas no sistema)
               </p>
             </div>
-            <Button variant="outlineConstructive" className="space-x-1">
-              <span>Adicionar Tinta</span>
-              <PlusIcon />
-            </Button>
+            <PaintDialog>
+              <Button variant="outlineConstructive" className="space-x-1">
+                <span>Adicionar Tinta</span>
+                <PlusIcon />
+              </Button>
+            </PaintDialog>
           </div>
           <GenericTable columns={columnsPaints} data={paintStock} />
         </section>

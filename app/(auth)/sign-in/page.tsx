@@ -1,5 +1,4 @@
-import { SignInForm } from "@/components/auth/sign-in-form";
-import { SignUpForm } from "@/components/auth/sign-up-form";
+import { SignInForm } from "@/components/forms/auth/sign-in-form";
 import Link from "next/link";
 
 export default function SignIpPage() {
