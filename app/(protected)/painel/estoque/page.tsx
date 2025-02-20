@@ -1,5 +1,14 @@
+import { columnsPaints } from "@/components/tables/columns";
+import { GenericTable } from "@/components/tables/generic-table";
+import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import { paintStock } from "@/lib/mockDb";
-import { format } from "date-fns";
+import { getDateByString, getLabelByFluidAmount } from "@/lib/utils";
+import { CirclePlusIcon, Plus, PlusIcon } from "lucide-react";
 
 export default function Estoque() {
   return (
@@ -12,46 +21,61 @@ export default function Estoque() {
               (Lista de tintas que estão com baixa quantidade)
             </p>
           </div>
-          <ul className="flex gap-4">
-            {paintStock.map((paint) => (
-              <li
-                key={paint.id}
-                className="bg-white shadow-sm rounded-lg p-4 flex flex-col"
-              >
-                <div className="flex items-center space-x-2 mb-3">
-                  <span
-                    className="w-4 h-4 rounded-full shadow-md"
-                    style={{ backgroundColor: paint.cor }}
-                  />
-                  <h3 className="text-xl font-semibold">{paint.nome}</h3>
-                </div>
-                <div className="text-sm text-slate-600 space-y-1">
-                  <p>
-                    <strong>Código:</strong> {paint.cor}
-                  </p>
-                  <p>
-                    <strong>Quantidade:</strong> {paint.quantidade} litros
-                  </p>
-                  <p>
-                    <strong>Validade:</strong>{" "}
-                    {format(new Date(paint.validade), "dd/MM/yyyy")}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <Carousel>
+            <CarouselContent className="gap-3 pl-5">
+              {paintStock.map((paint) => (
+                <CarouselItem
+                  key={paint.id}
+                  className="bg-white shadow-sm rounded-lg flex flex-col basis-auto p-4"
+                >
+                  <div className="flex items-center space-x-2 mb-3">
+                    <span
+                      className="w-4 h-4 rounded-full shadow-md"
+                      style={{ backgroundColor: paint.cor }}
+                    />
+                    <h3 className="text-xl font-semibold">{paint.nome}</h3>
+                  </div>
+                  <div className="text-sm text-slate-600 space-y-1">
+                    <p>
+                      <strong>Código:</strong> {paint.cor}
+                    </p>
+                    <p>
+                      <strong>Quantidade:</strong>{" "}
+                      {`${paint.quantidade} ${getLabelByFluidAmount(
+                        paint.quantidade
+                      )}`}
+                    </p>
+                    <p>
+                      <strong>Validade:</strong>{" "}
+                      {getDateByString(paint.validade)}
+                    </p>
+                    <p>
+                      <strong>Fabricante: </strong> {paint.fabricante}
+                    </p>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </section>
       </div>
       <div>
         <section className="px-6 py-4">
-          <div className="space-x-2">
-            <h2 className="inline text-2xl font-semibold mb-4">
-              Lista de Tintas
-            </h2>
-            <p className="inline text-muted">
-              (Visão geral de todas as tintas cadastradas no sistema)
-            </p>
+          <div className="flex justify-between">
+            <div className="space-x-2">
+              <h2 className="inline text-2xl font-semibold mb-4">
+                Lista de Tintas
+              </h2>
+              <p className="inline text-muted">
+                (Visão geral de todas as tintas cadastradas no sistema)
+              </p>
+            </div>
+            <Button variant="outlineConstructive" className="space-x-1">
+              <span>Adicionar Tinta</span>
+              <PlusIcon />
+            </Button>
           </div>
+          <GenericTable columns={columnsPaints} data={paintStock} />
         </section>
       </div>
     </div>
