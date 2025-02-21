@@ -22,19 +22,25 @@ export const signInSchema = z.object({
 });
 
 export const paintSchema = z.object({
-  nome: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
-  fabricante: z.string().min(6, "O Fabricante deve ter no mínimo 6 caracteres"),
-  cor: z
+  name: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
+  manufacturer: z
+    .string()
+    .min(6, "O Fabricante deve ter no mínimo 6 caracteres"),
+  color: z
     .string()
     .regex(
       /^#?[0-9A-Fa-f]{6}$/,
       "A cor deve ser um código hexadecimal de 6 caracteres"
     ),
-  quantidade: z.number().nonnegative("A quantidade não pode ser negativa"),
-  validade: z
+  quantity: z.number().nonnegative("A quantidade não pode ser negativa"),
+  expirationDate: z
     .string()
     .regex(
       /^\d{4}-\d{2}-\d{2}$/,
       "A validade deve estar no formato yyyy-mm-dd"
     ),
 });
+
+export const dbModelSchemas = {
+  paint: paintSchema,
+};

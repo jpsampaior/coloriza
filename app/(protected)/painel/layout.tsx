@@ -4,6 +4,7 @@ import "../../globals.css";
 import { Sidebar } from "@/components/sidebar/sidebar";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default async function RootLayout({
           <main className="flex w-full">
             <Sidebar />
             <div className="flex-grow flex-1">{children}</div>
+            <Toaster richColors />
           </main>
         </body>
       </html>

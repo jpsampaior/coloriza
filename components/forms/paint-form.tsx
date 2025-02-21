@@ -5,10 +5,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import { Calendar, Droplet, Factory, Lock, Mail, Palette, RotateCw, Shield, Type, User } from "lucide-react";
+import {
+  Calendar,
+  Droplet,
+  Factory,
+  Palette,
+  RotateCw,
+  Type,
+} from "lucide-react";
 import { paintSchema } from "@/lib/validations/schemas";
 import { CustomFormField, FormFieldType } from "./custom-form-field";
 import { Button } from "../ui/button";
+import { createRecord } from "@/actions/database/createRecord";
+import { toast } from "sonner";
 
 export function PaintForm() {
   const [mounted, setMounted] = useState(false);
@@ -22,16 +31,26 @@ export function PaintForm() {
   const form = useForm<z.infer<typeof paintSchema>>({
     resolver: zodResolver(paintSchema),
     defaultValues: {
-      nome: "",
-      fabricante: "",
-      cor: "",
-      quantidade: 0,
-      validade: "",
+      name: "",
+      color: "",
+      manufacturer: "",
+      quantity: 0,
+      expirationDate: "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof paintSchema>) {
-    console.log(data);
+    startTransition(() => {
+      toast.promise(createRecord("paint", data), {
+        loading: "Criando registro...",
+        success: () => {
+          return "Tinta criada com sucesso!";
+        },
+        error: (error) => {
+          return `Erro ao criar a tinta: ${error.message}`;
+        },
+      });
+    });
   }
 
   if (!mounted) return null;
@@ -45,7 +64,7 @@ export function PaintForm() {
         <div className="space-y-4">
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="nome"
+            name="name"
             placeholder="Nome"
             label="Nome:"
             control={form.control}
@@ -55,7 +74,7 @@ export function PaintForm() {
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="fabricante"
+            name="manufacturer"
             placeholder="Fabricante"
             label="Fabricante:"
             control={form.control}
@@ -65,7 +84,7 @@ export function PaintForm() {
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="cor"
+            name="color"
             placeholder="Cor"
             label="Cor:"
             type="colorHex"
@@ -77,7 +96,7 @@ export function PaintForm() {
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="quantidade"
+            name="quantity"
             type="number"
             placeholder="Quantidade"
             label="Quantidade:"
@@ -88,7 +107,7 @@ export function PaintForm() {
           />
           <CustomFormField
             fieldType={FormFieldType.INPUT}
-            name="validade"
+            name="expirationDate"
             type="date"
             placeholder="Validade"
             label="Validade:"

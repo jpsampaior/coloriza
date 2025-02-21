@@ -11,3 +11,12 @@ declare type Paint = {
   quantidade: number;
   validade: string;
 };
+
+declare type Paint2 = {
+  id: string;
+  name: string;
+  manufacturer: string;
+  color: string;
+  quantity: number;
+  expirationDate: string;
+};
