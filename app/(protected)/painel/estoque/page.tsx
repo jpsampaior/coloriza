@@ -1,4 +1,5 @@
-import { fetchRecords } from "@/actions/database/fetchRecord";
+"use client";
+
 import { PaintDialog } from "@/components/dialogs/paint-dialog";
 import { columnsPaints } from "@/components/tables/columns";
 import { GenericTable } from "@/components/tables/generic-table";
@@ -8,12 +9,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { usePaints } from "@/context/paint-context";
 import { getDateByString, getLabelByFluidAmount } from "@/lib/utils";
 import { Paint } from "@prisma/client";
 import { PlusIcon } from "lucide-react";
 
-export default async function Estoque() {
-  const { data: paintStock } = await fetchRecords("paint");
+export default function Estoque() {
+  const { paints: paintStock, loading } = usePaints();
 
   return (
     <div>

@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/sidebar/sidebar";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
+import { PaintProvider } from "@/context/paint-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,11 +26,13 @@ export default async function RootLayout({
         <body
           className={`relative h-full font-sans antialiased ${inter.className}`}
         >
-          <main className="flex w-full">
-            <Sidebar />
-            <div className="flex-grow flex-1">{children}</div>
-            <Toaster richColors />
-          </main>
+          <PaintProvider>
+            <main className="flex w-full">
+              <Sidebar />
+              <div className="flex-grow flex-1">{children}</div>
+              <Toaster richColors />
+            </main>
+          </PaintProvider>
         </body>
       </html>
     </SessionProvider>

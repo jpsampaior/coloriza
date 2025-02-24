@@ -167,10 +167,17 @@ export function GenericTable({ data, columns }: GenericTableProps) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex items-center justify-end space-x-2 py-2">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} de{" "}
           {table.getFilteredRowModel().rows.length} linha(s) selecionadas.
+        </div> */}
+        <div className="flex-1 text-sm text-muted -mt-4">
+          <span>
+            {`Pagina ${
+              table.getState().pagination.pageIndex + 1
+            } de ${table.getPageCount()}`}
+          </span>
         </div>
         <div className="space-x-2">
           <Button
