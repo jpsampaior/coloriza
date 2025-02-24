@@ -6,46 +6,48 @@ import { ActionsCell } from "./custom-cells/actions-cell";
 
 export const columnsPaints: ColumnDef<any>[] = [
   {
-    accessorKey: "id",
+    accessorKey: "displayId",
     header: "ID",
-    cell: ({ row }) => <div>{row.getValue("id") || "Não cadastrado"}</div>,
+    cell: ({ row }) => (
+      <div>{row.getValue("displayId") || "Não cadastrado"}</div>
+    ),
   },
   {
-    accessorKey: "nome",
+    accessorKey: "name",
     header: "Nome",
     cell: ({ row }) => (
       <div className="capitalize">
-        {row.getValue("nome") || "Não cadastrado"}
+        {row.getValue("name") || "Não cadastrado"}
       </div>
     ),
   },
   {
-    accessorKey: "fabricante",
+    accessorKey: "manufacturer",
     header: "Fabricante",
     cell: ({ row }) => (
       <div className="capitalize">
-        {row.getValue("fabricante") || "Não cadastrado"}
+        {row.getValue("manufacturer") || "Não cadastrado"}
       </div>
     ),
   },
   {
-    accessorKey: "cor",
+    accessorKey: "color",
     header: "Cor",
     cell: ({ row }) => (
       <div className="space-x-1">
         <span
           className="inline-block w-3 h-3 rounded-full"
-          style={{ backgroundColor: row.getValue("cor") }}
+          style={{ backgroundColor: row.getValue("color") }}
         />
-        <span>{row.getValue("cor") || "Não cadastrado"}</span>
+        <span>{row.getValue("color") || "Não cadastrado"}</span>
       </div>
     ),
   },
   {
-    accessorKey: "quantidade",
+    accessorKey: "quantity",
     header: "Quantidade",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("quantidade"));
+      const amount = parseFloat(row.getValue("quantity"));
 
       return (
         <div className="capitalize">{`${amount} ${getLabelByFluidAmount(
@@ -55,10 +57,12 @@ export const columnsPaints: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "validade",
+    accessorKey: "expirationDate",
     header: "Validade",
     cell: ({ row }) => (
-      <div>{getDateByString(row.getValue("validade")) || "Não cadastrado"}</div>
+      <div>
+        {getDateByString(row.getValue("expirationDate")) || "Não cadastrado"}
+      </div>
     ),
   },
   {

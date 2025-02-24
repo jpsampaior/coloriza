@@ -67,7 +67,7 @@ export function GenericTable({ data, columns }: GenericTableProps) {
       <div className="flex items-center py-4">
         <Input
           placeholder="Buscar por nome..."
-          value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("nome")?.setFilterValue(event.target.value)
           }

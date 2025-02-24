@@ -1,3 +1,4 @@
+import { fetchRecords } from "@/actions/database/fetchRecord";
 import { PaintDialog } from "@/components/dialogs/paint-dialog";
 import { columnsPaints } from "@/components/tables/columns";
 import { GenericTable } from "@/components/tables/generic-table";
@@ -7,11 +8,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { paintStock } from "@/lib/mockDb";
 import { getDateByString, getLabelByFluidAmount } from "@/lib/utils";
-import { CirclePlusIcon, Plus, PlusIcon } from "lucide-react";
+import { Paint } from "@prisma/client";
+import { PlusIcon } from "lucide-react";
 
-export default function Estoque() {
+export default async function Estoque() {
+  const { data: paintStock } = await fetchRecords("paint");
+
   return (
     <div>
       <div className="bg-sky-50">
@@ -24,7 +27,7 @@ export default function Estoque() {
           </div>
           <Carousel>
             <CarouselContent className="gap-3 pl-5">
-              {paintStock.map((paint) => (
+              {paintStock.map((paint: Paint) => (
                 <CarouselItem
                   key={paint.id}
                   className="bg-white shadow-sm rounded-lg flex flex-col basis-auto p-4"
@@ -32,26 +35,26 @@ export default function Estoque() {
                   <div className="flex items-center space-x-2 mb-3">
                     <span
                       className="w-4 h-4 rounded-full shadow-md"
-                      style={{ backgroundColor: paint.cor }}
+                      style={{ backgroundColor: paint.color }}
                     />
-                    <h3 className="text-xl font-semibold">{paint.nome}</h3>
+                    <h3 className="text-xl font-semibold">{paint.name}</h3>
                   </div>
                   <div className="text-sm text-slate-600 space-y-1">
                     <p>
-                      <strong>Código:</strong> {paint.cor}
+                      <strong>Código:</strong> {paint.color}
                     </p>
                     <p>
                       <strong>Quantidade:</strong>{" "}
-                      {`${paint.quantidade} ${getLabelByFluidAmount(
-                        paint.quantidade
+                      {`${paint.quantity} ${getLabelByFluidAmount(
+                        paint.quantity
                       )}`}
                     </p>
                     <p>
                       <strong>Validade:</strong>{" "}
-                      {getDateByString(paint.validade)}
+                      {getDateByString(paint.expirationDate)}
                     </p>
                     <p>
-                      <strong>Fabricante: </strong> {paint.fabricante}
+                      <strong>Fabricante: </strong> {paint.manufacturer}
                     </p>
                   </div>
                 </CarouselItem>
