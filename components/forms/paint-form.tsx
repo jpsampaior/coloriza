@@ -18,11 +18,16 @@ import { CustomFormField, FormFieldType } from "./custom-form-field";
 import { Button } from "../ui/button";
 import { createRecord } from "@/actions/database/createRecord";
 import { toast } from "sonner";
+import { Paint } from "@prisma/client";
+import { updateRecord } from "@/actions/database/updateRecord";
 
-export function PaintForm() {
+interface PaintFormProps {
+  paint?: Paint;
+}
+
+export function PaintForm({ paint }: PaintFormProps) {
   const [mounted, setMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setMounted(true);
@@ -31,25 +36,37 @@ export function PaintForm() {
   const form = useForm<z.infer<typeof paintSchema>>({
     resolver: zodResolver(paintSchema),
     defaultValues: {
-      name: "",
-      color: "",
-      manufacturer: "",
-      quantity: 0,
-      expirationDate: "",
+      name: paint?.name || "",
+      color: paint?.color || "",
+      manufacturer: paint?.manufacturer || "",
+      quantity: paint?.quantity || 0,
+      expirationDate: paint?.expirationDate || "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof paintSchema>) {
     startTransition(() => {
-      toast.promise(createRecord("paint", data), {
-        loading: "Criando registro...",
-        success: () => {
-          return "Tinta criada com sucesso!";
-        },
-        error: (error) => {
-          return `Erro ao criar a tinta: ${error.message}`;
-        },
-      });
+      if (!paint) {
+        toast.promise(createRecord("paint", data), {
+          loading: "Criando registro...",
+          success: () => {
+            return "Tinta criada com sucesso!";
+          },
+          error: (error) => {
+            return `Erro ao criar a tinta: ${error.message}`;
+          },
+        });
+      } else {
+        toast.promise(updateRecord("paint", paint.id, data), {
+          loading: "Atualizando registro...",
+          success: () => {
+            return "Tinta atualizada com sucesso!";
+          },
+          error: (error) => {
+            return `Erro ao atualizar a tinta: ${error.message}`;
+          },
+        });
+      }
     });
   }
 
@@ -117,7 +134,6 @@ export function PaintForm() {
             required
           />
         </div>
-        {error && <p className="text-red-500">{error}</p>}
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && <RotateCw className="mr-2 h-4 w-4 animate-spin" />}
           {isPending ? "Adicionando..." : "Adicionar"}

@@ -7,24 +7,31 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { PaintForm } from "../forms/paint-form";
+import { Paint } from "@prisma/client";
 
 interface PaintDialogProps {
   children: React.ReactNode;
+  paint?: Paint;
 }
 
-export function PaintDialog({ children }: PaintDialogProps) {
+export function PaintDialog({ children, paint }: PaintDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Adicionar nova tinta ao sistema</DialogTitle>
+          <DialogTitle>
+            {!paint
+              ? "Adicionar nova tinta ao sistema "
+              : "Editar tinta cadastrada"}
+          </DialogTitle>
           <DialogDescription>
-            Preencha os campos abaixo para adicionar uma nova tinta ao sistema.
-            Caso a tinta já exista, você pode editá-la na tabela de estoques.
+            {paint
+              ? "Preencha os campos abaixo para adicionar uma nova tinta ao sistema. Caso a tinta já exista, você pode editá-la na tabela de estoques."
+              : "Preencha os campos abaixo para editar uma tinta cadastrada."}
           </DialogDescription>
         </DialogHeader>
-        <PaintForm />
+        <PaintForm paint={paint} />
       </DialogContent>
     </Dialog>
   );

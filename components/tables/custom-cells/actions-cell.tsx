@@ -1,3 +1,4 @@
+import { PaintDialog } from "@/components/dialogs/paint-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,9 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Paint } from "@prisma/client";
 import { MoreHorizontal } from "lucide-react";
 
-export function ActionsCell({ paint }: { paint: any }) {
+export function ActionsCell({ paint }: { paint: Paint }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,7 +28,11 @@ export function ActionsCell({ paint }: { paint: any }) {
           Copiar ID
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Atualizar quantidade</DropdownMenuItem>
+        <PaintDialog paint={paint}>
+          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            Editar tinta
+          </DropdownMenuItem>
+        </PaintDialog>
       </DropdownMenuContent>
     </DropdownMenu>
   );
