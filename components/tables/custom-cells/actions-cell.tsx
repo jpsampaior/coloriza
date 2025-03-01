@@ -10,13 +10,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePaints } from "@/context/paint-context";
 import { Paint } from "@prisma/client";
 import { MoreHorizontal } from "lucide-react";
 import { toast } from "sonner";
 
 export function ActionsCell({ paint }: { paint: Paint }) {
+  const { deletePaint } = usePaints();
+
   function handleDelete() {
-    toast.promise(deleteRecord("paint", paint.id), {
+    toast.promise(deletePaint(paint.id), {
       loading: "Excluindo registro...",
       success: () => {
         return "Tinta excluída com sucesso!";

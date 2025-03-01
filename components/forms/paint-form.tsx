@@ -20,6 +20,7 @@ import { createRecord } from "@/actions/database/createRecord";
 import { toast } from "sonner";
 import { Paint } from "@prisma/client";
 import { updateRecord } from "@/actions/database/updateRecord";
+import { usePaints } from "@/context/paint-context";
 
 interface PaintFormProps {
   paint?: Paint;
@@ -29,6 +30,7 @@ export function PaintForm({ paint }: PaintFormProps) {
   const [mounted, setMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
 
+  const { addPaint, editPaint } = usePaints();
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -47,7 +49,7 @@ export function PaintForm({ paint }: PaintFormProps) {
   async function onSubmit(data: z.infer<typeof paintSchema>) {
     startTransition(() => {
       if (!paint) {
-        toast.promise(createRecord("paint", data), {
+        toast.promise(addPaint(data), {
           loading: "Criando registro...",
           success: () => {
             return "Tinta criada com sucesso!";
@@ -57,7 +59,7 @@ export function PaintForm({ paint }: PaintFormProps) {
           },
         });
       } else {
-        toast.promise(updateRecord("paint", paint.id, data), {
+        toast.promise(editPaint(paint.id, data), {
           loading: "Atualizando registro...",
           success: () => {
             return "Tinta atualizada com sucesso!";
