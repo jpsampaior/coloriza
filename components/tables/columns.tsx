@@ -5,13 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ActionsCell } from "./custom-cells/actions-cell";
 
 export const columnsPaints: ColumnDef<any>[] = [
-  {
-    accessorKey: "displayId",
-    header: "ID",
-    cell: ({ row }) => (
-      <div>{row.getValue("displayId") || "Não cadastrado"}</div>
-    ),
-  },
+   
   {
     accessorKey: "name",
     header: "Nome",
