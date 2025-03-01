@@ -12,7 +12,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  ChevronDown,
+  SearchIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -65,14 +71,20 @@ export function GenericTable({ data, columns }: GenericTableProps) {
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Buscar por nome..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("nome")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm hover:shadow-primary focus:shadow-primary"
-        />
+        <div className="flex rounded-md border focus-within:border-primary transition items-center px-2 w-sm">
+          <SearchIcon
+            size={18}
+            className="bg-dark-400 text-zinc-300 h-9 ml-1"
+          />
+          <Input
+            placeholder="Buscar por nome..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="flex-1 border-none focus:ring-0 h-9"
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -162,7 +174,7 @@ export function GenericTable({ data, columns }: GenericTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Sem resultados.
                 </TableCell>
               </TableRow>
             )}
